@@ -55,18 +55,28 @@ class BoundaryPoint
 
   def append_csv(room)
     CSV.open OUTPUT_FILE, 'a' do |csv|
-      room['properties']['boundaryPoints'].each do |boundary_point|
-        csv << [
-          room['properties']['name'],
-          @room_index,
-          boundary_point['X'],
-          boundary_point['Y'],
-          boundary_point['Z']
-        ]
+      boundary_points = room['properties']['boundaryPoints']
 
-        @room_index += 1
+      if boundary_points.length.zero?
+          csv << [
+            room['properties']['name'],
+            @room_index
+          ]
+      else
+        boundary_points.each do |boundary_point|
+          csv << [
+            room['properties']['name'],
+            @room_index,
+            boundary_point['X'],
+            boundary_point['Y'],
+            boundary_point['Z']
+          ]
+
+        end
       end
     end
+
+    @room_index += 1
   end
 end
 
